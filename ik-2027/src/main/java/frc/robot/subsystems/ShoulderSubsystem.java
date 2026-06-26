@@ -32,7 +32,7 @@ import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.SparkWrapper;
 
 public class ShoulderSubsystem extends SubsystemBase {
-	private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
+	private SmartMotorControllerConfig shoulderSmcConfig = new SmartMotorControllerConfig(this)
 			.withControlMode(ControlMode.CLOSED_LOOP)
 			// Feedback Constants (PID Constants)
 			.withClosedLoopController(50, 0, 0)
@@ -58,12 +58,12 @@ public class ShoulderSubsystem extends SubsystemBase {
 			.withStartingPosition(Degrees.of(-5));
 
 	// Vendor motor controller object
-	private SparkMax spark = new SparkMax(4, MotorType.kBrushless);
+	private SparkMax shoulderMotor = new SparkMax(4, MotorType.kBrushless);
 
 	// Create our SmartMotorController from our Spark and config with the NEO.
-	private SmartMotorController sparkSmartMotorController = new SparkWrapper(spark, DCMotor.getNEO(1), smcConfig);
+	private SmartMotorController shoulderSmartMotorController = new SparkWrapper(shoulderMotor, DCMotor.getNEO(1), shoulderSmcConfig);
 
-	private ArmConfig armCfg = new ArmConfig(sparkSmartMotorController)
+	private ArmConfig armCfg = new ArmConfig(shoulderSmartMotorController)
 			.withLength(Feet.of(3))
 			.withMass(Pounds.of(1))
 			// Telemetry name and verbosity for the arm.
