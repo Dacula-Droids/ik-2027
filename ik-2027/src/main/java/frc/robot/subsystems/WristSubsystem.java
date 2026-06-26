@@ -32,8 +32,19 @@ import yams.motorcontrollers.local.SparkWrapper;
 import yams.motorcontrollers.remote.TalonFXWrapper;
 
 public class WristSubsystem extends SubsystemBase {
+
+
   /** Creates a new WristSubsystem. */
   private SparkMax wristMotor = new SparkMax(Constants.WristConstants.WristMotorID, MotorType.kBrushless);
+  private static WristSubsystem INSTANCE = new WristSubsystem();
+
+  @SuppressWarnings("WeakerAccess")
+  public static WristSubsystem getInstance() {
+    if (INSTANCE == null) {
+      INSTANCE = new WristSubsystem();
+    }
+    return INSTANCE;
+  }
 
   private SmartMotorControllerConfig wristSmcConfig = new SmartMotorControllerConfig(this)
       .withControlMode(ControlMode.CLOSED_LOOP)
