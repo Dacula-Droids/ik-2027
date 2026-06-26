@@ -16,5 +16,12 @@ public class Constants {
         public static final Angle wristStartingPosition = Degrees.of(0);
         public static final Mass wristMass = Units.Pounds.of(8.7342717); // 8.7342717 lbs
         public static final Distance wristCenterOfMassFromPivot = Units.Inches.of(9);
+        public static final double wristAngleOffsetDegrees = 45; //The angle the wrist is at when its zeroed out in degrees
+    }
+
+    public static class IKConstants{
+        public static final double shoulderLength = 10; //Inches
+        public static final double wristLength = 7; //Inches
+        public static final double maxLength = Constants.IKConstants.shoulderLength + Constants.IKConstants.wristLength;
     }
 }
