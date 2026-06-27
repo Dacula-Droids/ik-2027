@@ -19,6 +19,21 @@ public class Constants {
         public static final double wristAngleOffsetDegrees = 45; //The angle the wrist is at when its zeroed out in degrees
     }
 
+    public static class IntakeConstants {
+        public static final int IntakeMotorID = 2;
+        public static final double IntakeGearRatio = 1.0;
+    }
+
+    public static class ShoulderConstants {
+        public static final int ShoulderMotorID = 3;
+        public static final double ShoulderGearRatio = 12.0;
+        public static final Angle shoulderLowerSoftLimit = Degrees.of(0);
+        public static final Angle shoulderUpperSoftLimit = Degrees.of(180);
+        public static final Angle shoulderStartingPosition = Degrees.of(90);
+        public static final Mass shoulderMass = Units.Pounds.of(10); // 10 lbs
+        public static final Distance shoulderCenterOfMassFromPivot = Units.Inches.of(5);
+    }
+
     public static class IKConstants{
         public static final double shoulderLength = 10; //Inches
         public static final double wristLength = 7; //Inches
