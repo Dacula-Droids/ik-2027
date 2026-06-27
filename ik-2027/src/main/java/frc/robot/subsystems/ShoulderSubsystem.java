@@ -32,6 +32,16 @@ import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.SparkWrapper;
 
 public class ShoulderSubsystem extends SubsystemBase {
+	private static ShoulderSubsystem INSTANCE = new ShoulderSubsystem();
+
+	@SuppressWarnings("WeakerAccess")
+	public static ShoulderSubsystem getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new ShoulderSubsystem();
+		}
+		return INSTANCE;
+	}
+
 	private SmartMotorControllerConfig shoulderSmcConfig = new SmartMotorControllerConfig(this)
 			.withControlMode(ControlMode.CLOSED_LOOP)
 			// Feedback Constants (PID Constants)
