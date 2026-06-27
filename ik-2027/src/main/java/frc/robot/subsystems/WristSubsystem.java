@@ -33,7 +33,6 @@ import yams.motorcontrollers.remote.TalonFXWrapper;
 
 public class WristSubsystem extends SubsystemBase {
 
-
   /** Creates a new WristSubsystem. */
   private SparkMax wristMotor = new SparkMax(Constants.WristConstants.WristMotorID, MotorType.kBrushless);
   private static WristSubsystem INSTANCE = new WristSubsystem();
@@ -48,9 +47,9 @@ public class WristSubsystem extends SubsystemBase {
 
   private SmartMotorControllerConfig wristSmcConfig = new SmartMotorControllerConfig(this)
       .withControlMode(ControlMode.CLOSED_LOOP)
-      .withClosedLoopController(37, 0, 0)//kP 170, 0, 1
+      .withClosedLoopController(37, 0, 0)// kP 170, 0, 1
       .withSimClosedLoopController(50, 0, 0)
-      .withFeedforward(new ArmFeedforward(0.06, 0.037, 0)) //0.3 ks, 0.25 kg, 2 kv q2     //0.23 kg, 0.32 ks, 0 kv
+      .withFeedforward(new ArmFeedforward(0.06, 0.037, 0)) // 0.3 ks, 0.25 kg, 2 kv q2 //0.23 kg, 0.32 ks, 0 kv
       .withSimFeedforward(new ArmFeedforward(0, 0, 0))
       .withTelemetry("Intake Pivot Motor", TelemetryVerbosity.HIGH)
       .withGearing(new MechanismGearing(Constants.WristConstants.WristGearRatio)) // 12:1 Gear Ratio
@@ -60,9 +59,11 @@ public class WristSubsystem extends SubsystemBase {
       .withClosedLoopRampRate(Seconds.of(0.25))
       .withOpenLoopRampRate(Seconds.of(0.25))
       .withSoftLimits(Constants.WristConstants.wristLowerSoftLimit, Constants.WristConstants.wristUpperSoftLimit)
-      .withStartingPosition(Constants.WristConstants.wristStartingPosition); // PID Controller, Max Velocity, Max Acceleration;
+      .withStartingPosition(Constants.WristConstants.wristStartingPosition); // PID Controller, Max Velocity, Max
+                                                                             // Acceleration;
 
-  private SmartMotorController wristSmartMotorController = new SparkWrapper(wristMotor, DCMotor.getNEO(1), wristSmcConfig);
+  private SmartMotorController wristSmartMotorController = new SparkWrapper(wristMotor, DCMotor.getNEO(1),
+      wristSmcConfig);
 
   private PivotConfig wristPivotConfig = new PivotConfig(wristSmartMotorController)
       .withTelemetry("Wrist Pivot", TelemetryVerbosity.HIGH);
@@ -93,7 +94,8 @@ public class WristSubsystem extends SubsystemBase {
   }
 
   // public Command sysId() {
-  //   return intakePivot.sysId(Volts.of(7), Volts.of(2).per(Second), Seconds.of(4));
+  // return intakePivot.sysId(Volts.of(7), Volts.of(2).per(Second),
+  // Seconds.of(4));
   // }
 
   public WristSubsystem() {
@@ -102,6 +104,7 @@ public class WristSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    wrist.updateTelemetry();
     // This method will be called once per scheduler run
   }
 }
