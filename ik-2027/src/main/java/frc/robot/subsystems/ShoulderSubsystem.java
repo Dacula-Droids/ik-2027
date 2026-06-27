@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.DegreesPerSecond;
@@ -64,41 +66,41 @@ public class ShoulderSubsystem extends SubsystemBase {
 			.withStatorCurrentLimit(Amps.of(40))
 			.withClosedLoopRampRate(Seconds.of(0.25))
 			.withOpenLoopRampRate(Seconds.of(0.25))
-			.withSoftLimits(Degrees.of(-20), Degrees.of(10))
-			.withStartingPosition(Degrees.of(-5));
+			.withSoftLimits(Constants.ShoulderConstants.shoulderLowerSoftLimit, Constants.ShoulderConstants.shoulderUpperSoftLimit)
+			.withStartingPosition(Constants.ShoulderConstants.shoulderStartingPosition);
 
 	// Vendor motor controller object
-	private SparkMax shoulderMotor = new SparkMax(4, MotorType.kBrushless);
+	private SparkMax shoulderMotor = new SparkMax(Constants.ShoulderConstants.ShoulderMotorID, MotorType.kBrushless);
 
 	// Create our SmartMotorController from our Spark and config with the NEO.
-	private SmartMotorController shoulderSmartMotorController = new SparkWrapper(shoulderMotor, DCMotor.getNEO(1), shoulderSmcConfig);
+	private SmartMotorController shoulderSmartMotorController = new SparkWrapper(shoulderMotor, DCMotor.getNEO(1),
+			shoulderSmcConfig);
 
 	private ArmConfig armCfg = new ArmConfig(shoulderSmartMotorController)
-			.withLength(Feet.of(3))
-			.withMass(Pounds.of(1))
+			.withLength(Constants.ShoulderConstants.shoulderCenterOfMassFromPivot) //Fix Later
+			.withMass(Constants.ShoulderConstants.shoulderMass)
 			// Telemetry name and verbosity for the arm.
 			.withTelemetry("Arm", TelemetryVerbosity.HIGH);
 
 	// Arm Mechanism
-	private Arm arm = new Arm(armCfg);
+	private Arm shoulder = new Arm(armCfg);
 
 	/** Creates a new ShoulderSubsystem. */
 	public ShoulderSubsystem() {
 	}
 
-	public void setShoulderAngleSetpoint(Angle angle){
-		arm.setMechanismPositionSetpoint(angle);
+	public void setShoulderAngleSetpoint(Angle angle) {
+		shoulder.setMechanismPositionSetpoint(angle);
 	}
 
-	//Find out inversions
-	public Command set(double dutycycle){
-		return arm.set(dutycycle);
+	// Find out inversions
+	public Command set(double dutycycle) {
+		return shoulder.set(dutycycle);
 	}
-
-
 
 	@Override
 	public void periodic() {
+		shoulder.updateTelemetry();
 		// This method will be called once per scheduler run
 	}
 }
